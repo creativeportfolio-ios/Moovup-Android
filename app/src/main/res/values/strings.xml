@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">All Friends</string>
+    <string name="title_activity_map_view">Map</string>
+    <string name="title_activity_map_disply">Map</string>
+
+    <string name="name">Name:</string>
+    <string name="email">Email:</string>
+
+</resources>
