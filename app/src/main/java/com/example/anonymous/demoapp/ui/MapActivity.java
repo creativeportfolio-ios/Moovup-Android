@@ -5,8 +5,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.anonymous.demoapp.R;
-import com.example.anonymous.demoapp.modal.Location;
+import com.example.anonymous.demoapp.modal.Contact;
 import com.example.anonymous.demoapp.ui.base.BaseActivity;
+import com.example.anonymous.demoapp.utils.AppConstant;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -17,7 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import butterknife.BindView;
 
 public class MapActivity extends BaseActivity implements OnMapReadyCallback {
-    private GoogleMap mGoooglemap;
+
     @BindView(R.id.imageView)
     ImageView imageView;
     @BindView(R.id.txtview1)
@@ -25,9 +26,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     @BindView(R.id.txtview2)
     TextView txtemail;
     String imagepath;
-
-    String name, email;
-    Location location;
+    Contact contact;
+    private GoogleMap mGoooglemap;
 
     @Override
     public int getLayout() {
@@ -40,22 +40,19 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        imagepath = getIntent().getStringExtra("picture");
-        name = getIntent().getStringExtra("name");
-        email = getIntent().getStringExtra("email");
-        location = (Location) getIntent().getSerializableExtra("location");
+        contact = (Contact) getIntent().getSerializableExtra(AppConstant.BundleExtras.CONTACT);
 
-        setdata();
+        setData();
     }
 
-    private void setdata() {
+    private void setData() {
+        setTitle(contact.getName());
 
-        setTitle(name);
-        txtname.setText(getString(R.string.name) + name);
-        txtemail.setText(getString(R.string.email) + email);
+        txtname.setText(getString(R.string.name) + contact.getName());
+        txtemail.setText(getString(R.string.email) + contact.getEmail());
 
         Glide.with(this)
-                .load(imagepath)
+                .load(contact.getPicture())
                 .into(imageView);
     }
 
@@ -63,8 +60,8 @@ public class MapActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mGoooglemap = googleMap;
 
-        LatLng position = new LatLng(location.getLatitude(), location.getLongitude());
-        mGoooglemap.addMarker(new MarkerOptions().position(position).title(name));
+        LatLng position = new LatLng(contact.getLocation().getLatitude(), contact.getLocation().getLongitude());
+        mGoooglemap.addMarker(new MarkerOptions().position(position).title(contact.getName()));
         mGoooglemap.moveCamera(CameraUpdateFactory.newLatLng(position));
         mGoooglemap.animateCamera(CameraUpdateFactory.zoomTo(5));
     }

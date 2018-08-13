@@ -1,25 +1,29 @@
 package com.example.anonymous.demoapp.modal;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
-public class Contact {
+import java.io.Serializable;
 
-    @SerializedName("location")
-    @Expose
-    private Location location;
-    @SerializedName("picture")
-    @Expose
-    private String picture;
-    @SerializedName("_id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("email")
-    @Expose
-    private String email;
+@Entity(tableName = "contact")
+public class Contact implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    @ColumnInfo(name = "picture")
+    public String picture;
+    @ColumnInfo(name = "_id")
+    public String _id;
+    @ColumnInfo(name = "name")
+    public String name;
+    @ColumnInfo(name = "email")
+    public String email;
+
+    @Embedded
+    public Location location;
 
     public Location getLocation() {
         return location;
@@ -38,11 +42,11 @@ public class Contact {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getName() {

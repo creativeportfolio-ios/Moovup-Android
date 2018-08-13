@@ -1,18 +1,22 @@
 package com.example.anonymous.demoapp.modal;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.RoomWarnings;
 
 import java.io.Serializable;
 
+@Entity
 public class Location implements Serializable {
 
-    @SerializedName("latitude")
-    @Expose
-    private Double latitude;
-    @SerializedName("longitude")
-    @Expose
-    private Double longitude;
+    @PrimaryKey(autoGenerate = true)
+    public int locationId;
+
+    @ColumnInfo(name = "latitude")
+    public Double latitude;
+    @ColumnInfo(name = "longitude")
+    public Double longitude;
 
     public Double getLatitude() {
         return latitude;

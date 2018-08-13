@@ -20,9 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ProductViewHolder> {
+    OnItemClickListener onItemClickListener;
     private Context mCtx;
     private List<Contact> contactList;
-    OnItemClickListener onItemClickListener;
 
     public ContactAdapter(Context mCtx, List<Contact> contactList) {
         this.mCtx = mCtx;
@@ -78,6 +78,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ProductV
         return contactList != null ? contactList.size() : 0;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Contact contact);
+    }
+
     class ProductViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.textViewname)
         TextView txtname;
@@ -96,10 +100,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ProductV
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(Contact contact);
     }
 }
 
